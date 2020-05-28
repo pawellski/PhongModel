@@ -20,26 +20,26 @@ public class Vector {
         this.y = y;
         this.z = z;
     }
-    
-    public void normalize(){
+
+    public void normalize() {
         double length = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-        if(length != 0){
-            x = x/length;
-            y = y/length;
-            z = z/length;
-        } else{
+        if (length != 0) {
+            x = x / length;
+            y = y / length;
+            z = z / length;
+        } else {
             x = 0;
             y = 0;
             z = 0;
         }
     }
-    
-    public Vector mulitplyVectorByConst(double constant){
-        return new Vector(x*constant, y*constant, z*constant);
+
+    public Vector mulitplyVectorByConst(double constant) {
+        return new Vector(x * constant, y * constant, z * constant);
     }
-    
-    public double mulitpyVectorByVector(Vector vector){
-        return x*vector.getX() + y*vector.getY() + z*vector.getZ();
+
+    public double mulitplyScalarVectorByVector(Vector vector) {
+        return x * vector.getX() + y * vector.getY() + z * vector.getZ();
     }
 
     public double getX() {
