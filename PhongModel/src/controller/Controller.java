@@ -5,16 +5,20 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import logic.PhongShading;
+import logic.Surface;
 
 public class Controller {
 
     private GraphicsContext map;
+    private Surface surface;
 
     @FXML
     private Canvas canvas;
 
     public void initialize() {
         prepareBackground();
+        prepareInitialPhong();
     }
 
     @FXML
@@ -47,6 +51,15 @@ public class Controller {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, 800, 800);
+        map = canvas.getGraphicsContext2D();
+        map.setFill(Color.DARKORANGE);
+        map.fillOval(200, 200, 400, 400);
+        
+    }
+
+    private void prepareInitialPhong() {
+        surface = new Surface(0.25, 0.75, 25);
+        PhongShading.phongAlgoritm(map, surface);
     }
 
 }
