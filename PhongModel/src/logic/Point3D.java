@@ -11,6 +11,10 @@ public class Point3D {
         this.y = y;
         this.z = z;
     }
+    
+    public Vector convertToVector(){
+        return new Vector(x, y, z);
+    }
 
     public double getX() {
         return x;
