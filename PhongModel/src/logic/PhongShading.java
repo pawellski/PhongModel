@@ -8,12 +8,12 @@ import javafx.scene.paint.Color;
 
 public class PhongShading {
 
-    private static Vector observator = new Vector(0, 0, 200);
     private static Point3D lightSource = new Point3D(0, 0, 200);
 
     private static final double Ia = 100;
     private static final double Ip = 60000;
-    private static final double Ka = 0.4;
+
+    private static final int STEP = 10;
 
     public static void phongAlgoritm(GraphicsContext image, Surface surface) {
         SnapshotParameters params = new SnapshotParameters();
@@ -21,18 +21,17 @@ public class PhongShading {
         PixelReader reader = image.getCanvas().snapshot(params, null).getPixelReader();
         PixelWriter pw = image.getPixelWriter();
 
-        for (int i = 0; i < 800; i++) {
-            for (int j = 0; j < 800; j++) {
+        for (int i = 0; i < 500; i++) {
+            for (int j = 0; j < 500; j++) {
                 if (!reader.getColor(i, j).toString().equals("0x000000ff")) {
                     Point3D point = computeZ(i, j);
                     Vector vN = point.convertToVector();
                     vN.normalize();
                     Vector vL = computeVector(point, lightSource);
                     vL.normalize();
+
                     double I = lightIntensity(surface, point, vN, vL);
-
                     Color actualColor = reader.getColor(i, j);
-
                     int red = assignColor((int) (actualColor.getRed() * 255), I);
                     int green = assignColor((int) (actualColor.getGreen() * 255), I);
                     int blue = assignColor((int) (actualColor.getBlue() * 255), I);
@@ -56,9 +55,9 @@ public class PhongShading {
     }
 
     private static Point3D computeZ(int x, int y) {
-        x = x - 400;
-        y = y - 400;
-        return new Point3D(x, y, (int) Math.sqrt(200 * 200 - x * x - y * y));
+        x = x - 250;
+        y = y - 250;
+        return new Point3D(x, y, (int) Math.sqrt(150 * 150 - x * x - y * y));
     }
 
     private static Vector computeVector(Point3D p1, Point3D p2) {
@@ -66,15 +65,9 @@ public class PhongShading {
     }
 
     private static double computeFatt(Point3D p) {
-        //double distance = Math.sqrt(Math.pow(p.getX() + lightSource.getX(), 2) + Math.pow(p.getY() + lightSource.getY(), 2)
-        //     + Math.pow(p.getZ() + lightSource.getZ(), 2));
-        // return 1.0 / distance;
-
-        //double distance = Math.pow(p.getX()-lightSource.getX(),2) + Math.pow(p.getY()-lightSource.getY(),2)
-        // + Math.pow(p.getZ()-lightSource.getZ(),2);
-        // return 1.0/distance;
         double distance = Math.pow(p.getX() + lightSource.getX(), 2) + Math.pow(p.getY() + lightSource.getY(), 2) + Math.pow(p.getZ() + lightSource.getZ(), 2);
         return 1.0 / Math.sqrt(distance);
+
     }
 
     private static double computeCos(Vector a, Vector b) {
@@ -87,8 +80,35 @@ public class PhongShading {
     }
 
     private static double lightIntensity(Surface surface, Point3D point, Vector vN, Vector vL) {
-        return Ia * Ka + computeFatt(point) * Ip * surface.getKD() * vN.mulitplyScalarVectorByVector(vL)
-                + computeFatt(point) * Ip * surface.getKS() * Math.pow(computeCos(computeVector(lightSource, point), vL), surface.getN());
+        return Ia * surface.getKA()
+                + computeFatt(point) * Ip * surface.getKD() * vN.mulitplyScalarVectorByVector(vL)
+                + computeFatt(point) * Ip * surface.getKS() * Math.pow(computeCos(computeVector(lightSource, point), vN), surface.getN());
+    }
+
+    public static void moveUp() {
+        lightSource.setY(lightSource.getY() - STEP);
+    }
+
+    public static void moveDown() {
+        lightSource.setY(lightSource.getY() + STEP);
+    }
+
+    public static void moveLeft() {
+        lightSource.setX(lightSource.getX() - STEP);
+    }
+
+    public static void moveRight() {
+        lightSource.setX(lightSource.getX() + STEP);
+    }
+
+    public static void moveForward() {
+        if (lightSource.getZ() != 150) {
+            lightSource.setZ(lightSource.getZ() - STEP);
+        }
+    }
+
+    public static void moveBackward() {
+        lightSource.setZ(lightSource.getZ() + STEP);
     }
 
 }
