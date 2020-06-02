@@ -19,7 +19,7 @@ public class Controller {
 
     public void initialize() {
         color = Color.SADDLEBROWN;
-        surface = new Surface(0.4, 0.75, 0.25, 5);
+        surface = new Surface(0.4, 0.75, 0.25, 10);
         prepareBackground();
         PhongShading.phongAlgoritm(map, surface);
     }
@@ -48,26 +48,30 @@ public class Controller {
                 PhongShading.moveBackward();
                 break;
             case "DIGIT1":
+                // KULKA MIEDZIANA
                 color = Color.SADDLEBROWN;
-                surface = new Surface(0.4, 0.75, 0.25, 5);
+                surface = new Surface(0.4, 0.75, 0.25, 10);
                 break;
             case "DIGIT2":
-                color = Color.WHITE;
-                surface = new Surface(0.05, 0.5, 0.7, 0.078125);
+                // KULKA PLASTIKOWA
+                color = Color.RED;
+                surface = new Surface(0.4, 0.6, 0.4, 10);
                 break;
             case "DIGIT3":
-                color = Color.SADDLEBROWN;
-                surface = new Surface(0.4, 0.25, 0.75, 100);
+                // KULKA DREWNIANA
+                color = new Color(94.0/255, 41.0/255, 12.0/255, 1.0);
+                surface = new Surface(0.4, 0.7, 0.3, 3);
                 break;
             case "DIGIT4":
-                color = Color.TURQUOISE;
-                surface = new Surface(0.4, 0.75, 0.25, 5);
+                //KULKA MATERIAŁOWA
+                color = Color.DARKSLATEGREY;
+                surface = new Surface(0.4, 0.75, 0.25, 3);
                 break;
             default:
                 break;
         }
         prepareBackground();
-        PhongShading.phongAlgoritm(map, surface);
+        PhongShading.phongAlgoritm(map, surface);   
     }
 
     public void focus() {
